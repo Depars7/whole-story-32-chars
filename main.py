@@ -17,7 +17,12 @@ ENTRY = "MyExTookTheDogAndTheRouter"
 
 def entry_line():
     """Return the entry text: one Wi-Fi name, 26 characters."""
-    return ENTRY
+    text = ENTRY
+    # Gate guard: the sealed scorer refuses anything over 32 characters,
+    # so fail loudly here rather than shipping an invalid entry.
+    assert 1 <= len(text) <= 32, f"entry is {len(text)} characters, gate allows 1-32"
+    assert text.strip() == text and text.strip(), "entry must not be blank or padded"
+    return text
 
 
 def main():
